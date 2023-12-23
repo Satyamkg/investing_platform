@@ -5,7 +5,7 @@ import pandas  as pd
 from datetime import datetime
 import time
 start_date_range = '2023-11-01'
-end_date_range = '2023-11-05'
+end_date_range = '2023-11-20'
 final_date = '2023-11-03'
 dict_rates = {}
 
