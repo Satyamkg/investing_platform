@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 import pandas  as pd 
 from datetime import datetime
 import time
@@ -9,7 +10,8 @@ final_date = '2023-11-03'
 dict_rates = {}
 
 def extract_raw_data(date_ref):
-    api_key = '24374ab81efea73ca8d0a3e17bbbab26'
+    #api_key = '24374ab81efea73ca8d0a3e17bbbab26'
+    api_key = os.environ["api_key"]
     url = f"http://data.fixer.io/api/{date_ref}"
     params= {"access_key": api_key}
     response = requests.get(url, params= params)
@@ -51,9 +53,7 @@ def df_expand_dates(start, end ,ref_df, ref_list, run_current_date = False):
     return result 
 
 def write_to_csv(final_df, filename):
-
     final_df.to_csv(filename)
-
 
 def current_date_list():
     exist_df = pd.read_csv('investing_platform.csv', index_col=0)
@@ -67,9 +67,8 @@ def current_date_list():
 def execute_func():
 
     exist_df, exist_dates = current_date_list()
-    output = df_expand_dates( '2023-10-20' , '2023-11-12', exist_df,exist_dates, run_current_date = False)
+    output = df_expand_dates( '2023-10-20' , '2023-11-20', exist_df,exist_dates, run_current_date = False)
     write_to_csv(output,'investing_platform.csv')
-
     print(output.columns)
     print(output.T)
     df_output = output.T 
